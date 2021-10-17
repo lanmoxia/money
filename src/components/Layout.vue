@@ -15,7 +15,6 @@ export default {
 
 <style lang="scss" scoped>
 .nav-wrapper{
-  border: 1px solid green;
   display: flex;
   flex-direction: column;
   // 最小宽度不行 就固定宽度
@@ -23,7 +22,6 @@ export default {
 }
 .content{
   overflow: auto;
-  border: 1px solid red;
   flex-grow: 1;
 }
 </style>
