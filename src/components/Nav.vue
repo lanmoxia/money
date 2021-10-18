@@ -4,12 +4,12 @@
     <Icon name="money"/>
     记账
   </router-link>
-  |
-  <router-link to="/labels" class="item" active-class="selected">
+
+  <router-link to="/labels" class="item"  active-class="selected">
     <Icon name="labels"/>
     标签
   </router-link>
-  |
+
   <router-link to="/statistics" class="item" active-class="selected">
    <Icon name="statistics"/>
     统计
@@ -41,7 +41,7 @@ nav {
       height: 32px;
     }
   }
-  > .item.selected{
+  > .item.selected {
     color: red;
   }
 }
