@@ -1,6 +1,6 @@
 <template>
-  <div class="nav-wrapper">
-    <div class="content">
+  <div class="layout-wrapper" :class="classPrefix && `${classPrefix}-wrapper`">
+    <div class="content" :class="classPrefix && `${classPrefix}-content`">
      <slot/>
     </div>
     <Nav/>
@@ -9,12 +9,13 @@
 
 <script lang="ts">
 export default {
-  name: 'Layout'
+  name: 'Layout',
+  props: ['classPrefix']
 };
 </script>
 
 <style lang="scss" scoped>
-.nav-wrapper{
+.layout-wrapper{
   display: flex;
   flex-direction: column;
   // 最小宽度不行 就固定宽度
