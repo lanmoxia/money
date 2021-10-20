@@ -28,6 +28,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/assets/style/help.scss";
 .numberPad{
   .output{
     @extend %clearfix;
