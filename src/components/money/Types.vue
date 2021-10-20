@@ -14,10 +14,14 @@
 <script>
 export default {
   name: 'Types',
+  props: ['xxx'],
   data(){
     return {
       type: '-' // ‘+’ 表示收入 '-' 表示支出
     }
+  },
+  mounted(){
+    console.log(this.xxx)
   },
   methods:{
     selectType(type){ // type 只能是 '+' or '-' 中的一个
