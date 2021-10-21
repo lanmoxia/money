@@ -3,8 +3,14 @@
     {{ value }}
     <label class="notes">
       <span class="name">备注</span>
+      <!--      <input type="text"-->
+      <!--             :value="value"-->
+      <!--             @input="value = $event.target.value"-->
+      <!--             可以简称成 v-model-->
+      <!--             v-model="value"-->
+      <!--             placeholder="请填写备注信息">-->
       <input type="text"
-             @input="onInput"
+             v-model="value"
              placeholder="请填写备注信息">
     </label>
   </div>
