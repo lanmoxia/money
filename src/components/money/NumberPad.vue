@@ -28,28 +28,20 @@ import {Component} from 'vue-property-decorator';
 @Component
 export default class NumberPad extends Vue {
   output: string = '';
-  // 上边 button 点击以后执行函数 inputContent()
-  // Vue 会自动把参数传给这个函数 inputContent(event){}
-  // 参数包括事件所有信息包装成一个对象 event
-  // 我们知道 event 是一个对象 是一个什么类型的对象？属什么类？
-  // 当我们点击这个 button 触发点击事件 实际没有点击事件 只有鼠标、键盘、UL、用户事件等
-  // MouseEvent 是 DOM 内置的一个类
-  inputContent(event: MouseEvent) {// 这里加 MouseEvent 就是指定是鼠标事件 不加会报错
-    // if (event.target) {
-    //   console.log((event.target as HTMLButtonElement).textContent);
-    // }
-    //简化成下边两句代码
-    // const button = (event.target as HTMLButtonElement);
-    // console.log(button.textContent);
 
-    // target 有可能是空需要做下判断；
-    // textContent 有可能没有内容 需要强制指定类型 括号括起来
-    // as HTMLButtonElement 强制指定类型 是一个 button
-    // 按钮是一定是有内容的 是有 textContent
-    // 造成这样的原因是 TS 和 Vue 结合不够好
+  inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement);
-    console.log(button.textContent);
-    this.output += button.textContent;
+    // 这里不强制指定类型 indexOf(input) input 有可能为空 解决警告
+    const input = button.textContent as string; // const input = button.textContent!; 这样也可以
+    if (this.output === '0') {
+      if ('0123456789'.indexOf(input) >= 0) {
+        this.output = input;
+      } else {
+        this.output += input;
+      }
+    } else {
+      this.output += input;
+    }
   }
 };
 </script>
