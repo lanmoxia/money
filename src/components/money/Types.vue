@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ say }}
     <ul class="types">
       <li :class="type === '-' && 'selected'"
           @click="selectType('-')">支出
@@ -13,12 +14,17 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import Component from 'vue-class-component';
 
+@Component({
+  props: {
+    name: String
+  }
+})
 
-@Component
-export default class Type extends Vue {
+export default class Types extends Vue {
   type = '-';
+  say = `Hello,${this.name}`;
 
   selectType(type: string) {
     if (type !== '-' && type !== '+') {
