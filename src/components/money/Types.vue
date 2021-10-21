@@ -2,45 +2,41 @@
   <div>
     <ul class="types">
       <li :class="type === '-' && 'selected'"
-          @click= "selectType('-')">支出
+          @click="selectType('-')">支出
       </li>
       <li :class="type === '+' && 'selected'"
-          @click= "selectType('+')">收入
+          @click="selectType('+')">收入
       </li>
     </ul>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Types',
-  props: ['xxx'],
-  data(){
-    return {
-      type: '-' // ‘+’ 表示收入 '-' 表示支出
+<script lang="ts">
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+
+
+@Component
+export default class Type extends Vue {
+  type = '-';
+
+  selectType(type: string) {
+    if (type !== '-' && type !== '+') {
+      throw new Error('type is unknown');
     }
-  },
-  mounted(){
-    console.log(this.xxx)
-  },
-  methods:{
-    selectType(type){ // type 只能是 '+' or '-' 中的一个
-      if(type !== '-' && type !== '+'){
-        throw new Error('type is unknown')
-      }
-      this.type = type
-    }
+    this.type = type;
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
-.types{
+.types {
   background: #c6c6ca;
   display: flex;
   text-align: center;
   color: #1e1b1c;
   font-size: 24px;
+
   > li {
     width: 50%;
     //這裡如果使用 line-height 垂直居中會因為 border 有問
@@ -49,7 +45,7 @@ export default {
     align-items: center;
     position: relative;
     // 這裡的 & 表示同級當前的 li 不是子代
-    &.selected::after{
+    &.selected::after {
       // 这里使用伪元素+绝对定位添加选中态 使用 border 会影响高度
       content: '';
       position: absolute;

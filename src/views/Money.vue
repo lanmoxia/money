@@ -1,7 +1,7 @@
 <template>
   <Layout class-prefix="layout" >
     <NumberPad/>
-    <Types xxx="hi"/>
+    <Types/>
     <Notes/>
     <Tags/>
   </Layout>
@@ -26,11 +26,4 @@ export default {
     display: flex;
     flex-direction: column-reverse;
   }
-</style>
-<style lang="scss" scoped>
-  @import '~@/assets/style/help.scss';
-
-
-
-
 </style>
