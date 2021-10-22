@@ -1,7 +1,7 @@
 <template>
   <div class="tags">
     <div class="new">
-      <button>新增标签</button>
+      <button @click="create">新增标签</button>
     </div>
     <ul class="current">
       <!--      :class="selectedTags.indexOf(tag) >= 0 && 'selected'"-->
@@ -21,9 +21,7 @@ import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Tags extends Vue {
-  // 这里的 dataSource 是外部传进来 尽量不修改 使用 undefined 表示有可能没给值
-  // string[] 这是表示字符串数组
-  // 这里的 @Prop 修饰器在这个类里边 即使没有参数也需要加括号 外部 @Component 不用加
+  
   @Prop() dataSource: string[] | undefined;// 默认标签数据
   selectedTags: string[] = [];// 选中的标签
   toggle(tag: string) {
@@ -32,6 +30,17 @@ export default class Tags extends Vue {
       this.selectedTags.splice(index, 1);
     } else {
       this.selectedTags.push(tag);
+    }
+  }
+
+  create() {
+    const name = window.prompt('请输入标签名');
+    console.log(name);
+    if (name === '') {
+      window.alert('标签名不能为空');
+    } else if (this.dataSource) {
+      this.$emit('update: dataSource', [...this.dataSource, name]);
+
     }
   }
 };
@@ -52,11 +61,11 @@ export default class Tags extends Vue {
     > li {
       $bg: #d9d9d9;
       background: #cac9ce;
-      //$h: 24px;
-      height: 24px;
-      border-radius: 12px;
+      $h: 24px;
+      height: $h;
+      border-radius: $h/2;
       padding: 0 16px;
-      margin-right: 12px;
+      margin-right: $h/2;
       color: #1e1b1c;
       //確定裡邊只有一行字用 line-height
       //不能確定是一行字 每個 li flex 上下居中
