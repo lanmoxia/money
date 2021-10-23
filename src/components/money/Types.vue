@@ -1,5 +1,6 @@
 <template>
   <div>
+<!--    {{ type }}-->
     <ul class="types">
       <li :class="type === '-' && 'selected'"
           @click="selectType('-')">支出
@@ -13,7 +14,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 
 
 @Component
@@ -25,6 +26,17 @@ export default class Types extends Vue {
       throw new Error('type is unknown');
     }
     this.type = type;
+
+    // 只要进入到 selectType 函数，不管 +/- 都会触发事件
+    // 这样比较浪费事件，使用 watch 监听只有变化的情况下才会触发事件
+    //this.$emit('update:value', this.type);
+    // console.log(type);
+  }
+
+// 使用 Watch 监听，只有 value 变化才会更新 比较适合
+  @Watch('type')
+  onTypeChange(value: string) {
+    this.$emit('update:value', value);
   }
 }
 </script>

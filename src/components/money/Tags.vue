@@ -5,7 +5,7 @@
     </div>
     <ul class="current">
       <!--      :class="selectedTags.indexOf(tag) >= 0 && 'selected'"-->
-      <!--      可以优化为一个对象：:class="{selected: selectedTags.indexOf(tag)>=0}"-->
+      <!--      可以优化为一个对象方式：:class="{selected: selectedTags.indexOf(tag)>=0}"-->
       <li v-for="tag in dataSource" :key="tag"
           :class="{selected: selectedTags.indexOf(tag)>=0}"
           @click=" toggle(tag)">
@@ -21,9 +21,6 @@ import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class Tags extends Vue {
-  // 这里的 dataSource 是外部传进来 尽量不修改 使用 undefined 表示有可能没给值
-  // string[] 这是表示字符串数组
-  // 这里的 @Prop 修饰器在这个类里边 即使没有参数也需要加括号 外部 @Component 不用加
   @Prop() dataSource: string[] | undefined;// 默认标签数据
   selectedTags: string[] = [];// 选中的标签
   toggle(tag: string) {
@@ -33,6 +30,10 @@ export default class Tags extends Vue {
     } else {
       this.selectedTags.push(tag);
     }
+    // 用户选中或取消 触发 update:selected 事件，把 selectedTags 传出去
+    // 外部监听 update:selected 事件调用函数 onUpdateTags 函数
+    this.$emit('update:value', this.selectedTags);
+
   }
 
   create() {
@@ -41,15 +42,7 @@ export default class Tags extends Vue {
     if (name === '') {
       window.alert('标签名不能为空');
     } else if (this.dataSource) { // 这里 else 和 if 中间什么也没有 可以合并成 else if
-      // Vue 不推荐修改外部数据
-      // 使用 TS 阻止 @Prop() readonly dataSource: string[] | undefined; 只读
-      // 如果是只读我们就不能添加了 显然这种方法不行
-      //this.dataSource.push(name!);
-      // 使用触发一个 $emit 事件来添加标签 事件中把 dataSource 更新请求告诉外部数据
-      // 外部数据使用 .sync 修饰符，如果触发了 'update: dataSource' 事件 就把更新的数据复值给 <Tags :data-source.sync="tags"/>>
-      // $emit(event: 告诉外部数据数据变化，[... 表示展开数据，添加新的 name])
       this.$emit('update:dataSource', [...this.dataSource, name]);
-
     }
   }
 };

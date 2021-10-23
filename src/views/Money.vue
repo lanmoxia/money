@@ -1,11 +1,12 @@
 <template>
   <Layout class-prefix="layout">
-    <NumberPad @update: value="onUpdateAmount"/>
+    <NumberPad @update:value="onUpdateAmount"/>
     <!--    收入支出只能选一个 这里就不用加 s 了-->
-    <Types @update: value="onUpdateType"/>
-    <Notes @update: value="onUpdateNotes"/>
+    <Types @update:value="onUpdateType"/>
+    <Notes @update:value="onUpdateNotes"/>
     <!--    触发 @update:value 事件 执行 onUpdateTags 函数-->
     <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
+    {{ record }}
   </Layout>
 </template>
 
@@ -17,25 +18,38 @@ import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import {Component} from 'vue-property-decorator';
 
+// 把监听的所有数据放到一个对象中
+// 先在 TS 中定义对象 必须写类型 不用给值
+type Record = {
+  tags: string[]
+  notes: string
+  type: string
+  amount: number
+}
+
 @Component({components: {Tags, Notes, Types, NumberPad}})
 export default class Money extends Vue {
   tags = ['衣', '食', '住', '行'];
+  // 然后初始化这个对象
+  record: Record = {
+    tags: [], notes: '', type: '-', amount: 0
+  };
 
   onUpdateTags(value: string[]) { // 这里的参数名随便取
     // Vue 会把 Tags 组件中 value 标签选中取消状态作为第一个参数传到 onUpdateTags 函数
-    console.log(value);
+    this.record.tags = value;
   }
 
   onUpdateNotes(value: string) {
-    console.log(value);
+    this.record.notes = value;
   }
 
   onUpdateType(value: string) {
-    console.log(value);
+    this.record.type = value;
   }
 
   onUpdateAmount(value: string) { // 用户输入了 1. 还是一个字符串 所以这里类型不能是 number 只能是 string
-    console.log(value);
+    this.record.amount = parseFloat(value);
   }
 };
 </script>
