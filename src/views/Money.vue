@@ -2,7 +2,10 @@
   <Layout class-prefix="layout">
     <NumberPad @update:value="onUpdateAmount"/>
     <!--    收入支出只能选一个 这里就不用加 s 了-->
-    <Types @update:value="onUpdateType"/>
+    <!--    :value="record.type"：把默认的 type 传过去 Types 组件内就不需要定义 type 了-->
+    <!--    <Types :value="record.type" @update:value="onUpdateType"/>-->
+    <!--    这里又出现了 :x update:x 可以使用 .sync 修饰符了 下边的 onUpdateType 函数就不需要了-->
+    <Types :value.sync="record.type"/>
     <Notes @update:value="onUpdateNotes"/>
     <!--    触发 @update:value 事件 执行 onUpdateTags 函数-->
     <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
@@ -44,9 +47,9 @@ export default class Money extends Vue {
     this.record.notes = value;
   }
 
-  onUpdateType(value: string) {
-    this.record.type = value;
-  }
+  // onUpdateType(value: string) {
+  //   this.record.type = value;
+  // }
 
   onUpdateAmount(value: string) { // 用户输入了 1. 还是一个字符串 所以这里类型不能是 number 只能是 string
     this.record.amount = parseFloat(value);
