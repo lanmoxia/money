@@ -21,6 +21,26 @@ import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
 
+//数 据 库 迁 移，多版本使用版本复用的方法
+// 这里只是两个版本，如果多个版本，比如有三个版本，正确做法是：1-2;2-3 而不是 1-3;2-3
+
+// 获取版本
+const version = window.localStorage.getItem('version') || '0';
+//拿到数据库
+const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
+// 升级数据库/数据库迁移
+if (version === '0.0.1') {
+  // 这里不能保证之前版本的数据具体保存时间，这里随便加一个确保结构是正确的
+  // 遍历 record
+  recordList.forEach(record => {
+    record.createdAt = new Date(2020, 0, 1);
+  });
+  // 先保存数据 再把数据库版本变成 '0.0.2'
+  window.localStorage.setItem('recordList', JSON.stringify(recordList));
+}
+// 更改数据库版本到 '0.0.2'
+window.localStorage.setItem('version', '0.0.2');
+
 // 把监听的所有数据放到一个对象中
 // 先在 TS 中定义对象 必须写类型 不用给值
 type Record = {
@@ -39,7 +59,7 @@ export default class Money extends Vue {
   // 每次刷新自动在 localStorage 读取
   // 获取的 recordList 是字符串 没办法放到数组 需要 parse 一下
   // 后边保底 '[]' 意思是有可能为空 空的话怎么可以 parse 给个保底字符串
-  recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
+  recordList: Record[] = recordList;//JSON.parse(window.localStorage.getItem('recordList') || '[]');
   // 然后初始化这个对象
   record: Record = {
     // 优化成 .sync 修饰符 我们需求更改了只需要修改这里的默认值就可以了 不用再修改其他小组件
