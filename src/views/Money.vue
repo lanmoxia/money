@@ -3,7 +3,8 @@
     <!--    <NumberPad @update:value="onUpdateAmount"/>-->
     <!--    给NumberPad 一个默认值 这里又可以更改为 .sync -->
     <!--    <NumberPad :value="record.amount" @update:value="onUpdateAmount"/>-->
-    <NumberPad :value.sync="record.amount"/>
+    <!--    @submit="saveRecord" ：监听 submit 事件-->
+    <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>
     <Notes @update:value="onUpdateNotes"/>
     <!--    触发 @update:value 事件 执行 onUpdateTags 函数-->
@@ -18,7 +19,7 @@ import Tags from '@/components/money/Tags.vue';
 import Notes from '@/components/money/Notes.vue';
 import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 
 // 把监听的所有数据放到一个对象中
 // 先在 TS 中定义对象 必须写类型 不用给值
@@ -32,6 +33,8 @@ type Record = {
 @Component({components: {Tags, Notes, Types, NumberPad}})
 export default class Money extends Vue {
   tags = ['衣', '食', '住', '行'];
+  // 定义 recordList 存放 record 存了 Record 的地址
+  recordList: Record[] = [];
   // 然后初始化这个对象
   record: Record = {
     // 优化成 .sync 修饰符 我们需求更改了只需要修改这里的默认值就可以了 不用再修改其他小组件
@@ -47,13 +50,34 @@ export default class Money extends Vue {
     this.record.notes = value;
   }
 
+  saveRecord() {
+    // 每次 push 之前深拷贝这样 localStorage 中就不会覆盖了
+    // 相当于每次值保存了副本
+    const record2 = JSON.parse(JSON.stringify(this.record));
+    this.recordList.push(record2);
+    console.log(this.recordList);
+    // 这种方法可以保存 缺点是如果在其他页面修改 其他页面也要重新保存 可以使用 watch 根据变化保存
+    // localStorage.setItem('recordList', JSON.stringify(this.recordList));
+  }
+
+  // 解决办法使用 watch 监听 哪里改变了保存哪里
+  @Watch('recordList')
+  onRecordListChange() {
+    // 第一次用户点击1保存 得到 record：{amount:1}
+    // recordList.push(this.record) 内存图中存的不是 amount 而是一个地址 101
+    // record.amount = 2 用户点击了 2保存 第一次 push 的没变化还是那个地址 amount 变成了2
+    // 第三次 list.push(record) 内存图中 0和1两个都是101 里边的 amount 都是2
+    // 所以我们在 localString 每次保存后边的会覆盖前边的 解决办法就是 push 之前深拷贝
+    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+  }
+
   // onUpdateType(value: string) {
   //   this.record.type = value;
   // }
 
-  onUpdateAmount(value: string) { // 用户输入了 1. 还是一个字符串 所以这里类型不能是 number 只能是 string
-    this.record.amount = parseFloat(value);
-  }
+  // onUpdateAmount(value: string) { // 用户输入了 1. 还是一个字符串 所以这里类型不能是 number 只能是 string
+  //   this.record.amount = parseFloat(value);
+  // }
 };
 </script>
 <style lang="scss">

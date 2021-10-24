@@ -70,6 +70,9 @@ export default class NumberPad extends Vue {
 
   ok() {
     this.$emit('update:value', this.output);
+    // ok 被点击再触发一个 submit 事件 这里是存储 localstorage 的代码
+    this.$emit('submit', this.output);
+    this.output = '0';
   }
 }
 </script>
