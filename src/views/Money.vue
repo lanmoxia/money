@@ -1,10 +1,9 @@
 <template>
   <Layout class-prefix="layout">
-    <NumberPad @update:value="onUpdateAmount"/>
-    <!--    收入支出只能选一个 这里就不用加 s 了-->
-    <!--    :value="record.type"：把默认的 type 传过去 Types 组件内就不需要定义 type 了-->
-    <!--    <Types :value="record.type" @update:value="onUpdateType"/>-->
-    <!--    这里又出现了 :x update:x 可以使用 .sync 修饰符了 下边的 onUpdateType 函数就不需要了-->
+    <!--    <NumberPad @update:value="onUpdateAmount"/>-->
+    <!--    给NumberPad 一个默认值 这里又可以更改为 .sync -->
+    <!--    <NumberPad :value="record.amount" @update:value="onUpdateAmount"/>-->
+    <NumberPad :value.sync="record.amount"/>
     <Types :value.sync="record.type"/>
     <Notes @update:value="onUpdateNotes"/>
     <!--    触发 @update:value 事件 执行 onUpdateTags 函数-->
@@ -35,6 +34,7 @@ export default class Money extends Vue {
   tags = ['衣', '食', '住', '行'];
   // 然后初始化这个对象
   record: Record = {
+    // 优化成 .sync 修饰符 我们需求更改了只需要修改这里的默认值就可以了 不用再修改其他小组件
     tags: [], notes: '', type: '-', amount: 0
   };
 

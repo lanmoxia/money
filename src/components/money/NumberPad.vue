@@ -23,11 +23,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class NumberPad extends Vue {
-  output: string = '';
+  @Prop() readonly value!: number;
+  output = this.value.toString(); // 显示的是字符串 需要 toString()
 
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement);
