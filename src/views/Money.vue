@@ -9,7 +9,7 @@
     <Notes @update:value="onUpdateNotes"/>
     <!--    触发 @update:value 事件 执行 onUpdateTags 函数-->
     <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
-    {{ record }}
+    {{ recordList }}
   </Layout>
 </template>
 
@@ -33,8 +33,12 @@ type Record = {
 @Component({components: {Tags, Notes, Types, NumberPad}})
 export default class Money extends Vue {
   tags = ['衣', '食', '住', '行'];
-  // 定义 recordList 存放 record 存了 Record 的地址
-  recordList: Record[] = [];
+  // 定义 recordList 存放 record 存了 Record 的地址 没次刷新页面 recordList 都是空的
+  // recordList: Record[] = [];
+  // 每次刷新自动在 localStorage 读取
+  // 获取的 recordList 是字符串 没办法放到数组 需要 parse 一下
+  // 后边保底 '[]' 意思是有可能为空 空的话怎么可以 parse 给个保底字符串
+  recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
   // 然后初始化这个对象
   record: Record = {
     // 优化成 .sync 修饰符 我们需求更改了只需要修改这里的默认值就可以了 不用再修改其他小组件
