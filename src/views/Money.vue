@@ -15,30 +15,16 @@ import Notes from '@/components/money/Notes.vue';
 import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
+import model from '@/model';
 
-// 方法1：引入model.js：JS中使用 export default model; 导出
-// const model = require('@/model.js').default;
-// 方法2：引入model.js：JS中使用 export {model}; 导出
-// const model = require('@/model.js').model;
-// 析构赋值简写为
-const {model} = require('@/model.js');
-
-const recordList: Record[] = model.fetch(); // 这里使用
-
-type Record = {
-  tags: string[]
-  notes: string
-  type: string
-  amount: number // 数据类型
-  createdAt?: Date // TS 中出了基本类型 还可以写类 类是类型下的分支  => 相当于 JS 中的构造函数
-}
+const recordList = model.fetch(); // 这里知道 fetch 的返回值类型了 前边的 recordList 就不需要明确类型了
 
 @Component({components: {Tags, Notes, Types, NumberPad}})
 export default class Money extends Vue {
   tags = ['衣', '食', '住', '行'];
 
-  recordList: Record[] = recordList;
-  record: Record = {
+  recordList: RecordItem[] = recordList;
+  record: RecordItem = {
     tags: [], notes: '', type: '-', amount: 0
   };
 
@@ -51,7 +37,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const record2: Record = JSON.parse(JSON.stringify(this.record));
+    const record2: RecordItem = model.clone(this.record);
     record2.createdAt = new Date();
     this.recordList.push(record2);
     console.log(this.recordList);
@@ -59,7 +45,7 @@ export default class Money extends Vue {
 
   @Watch('recordList')
   onRecordListChange() {
-    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    model.save(this.recordList);
   }
 };
 </script>
