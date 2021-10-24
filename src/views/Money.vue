@@ -27,7 +27,8 @@ type Record = {
   tags: string[]
   notes: string
   type: string
-  amount: number
+  amount: number // 数据类型
+  createdAt?: Date // TS 中出了基本类型 还可以写类 类是类型下的分支  => 相当于 JS 中的构造函数
 }
 
 @Component({components: {Tags, Notes, Types, NumberPad}})
@@ -57,7 +58,8 @@ export default class Money extends Vue {
   saveRecord() {
     // 每次 push 之前深拷贝这样 localStorage 中就不会覆盖了
     // 相当于每次值保存了副本
-    const record2 = JSON.parse(JSON.stringify(this.record));
+    const record2: Record = JSON.parse(JSON.stringify(this.record));
+    record2.createdAt = new Date(); // 数据保存的时候记录下时间
     this.recordList.push(record2);
     console.log(this.recordList);
     // 这种方法可以保存 缺点是如果在其他页面修改 其他页面也要重新保存 可以使用 watch 根据变化保存
