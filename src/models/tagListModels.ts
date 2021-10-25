@@ -1,10 +1,14 @@
 // 这个 model 有自己的 data 自己维护 data 外部需要创建或保存只需要使用这里的函数PAI即可
-
 const localStorageKeyName = 'tagList';
+
+type Tag = {
+  id: string;
+  name: string;
+}
 // 这里定义类型
 type TagListModel = {
-  data: string[],
-  fetch: () => string[],
+  data: Tag[],
+  fetch: () => Tag[],
   create: (name: string) => 'success' | 'duplicated',// 这里可以防止外部使用拼写错误 拼写错误会提示
   save: () => void
 }
@@ -19,11 +23,14 @@ const tagListModel: TagListModel = {
   },
   // 创建标签
   create(name: string) {
-    if (this.data.indexOf(name) >= 0) { // 如果标签名重复了
+    // 现在的 data 应该是这个样子：this.data = [{id:1, name:1},{id:2, name:2}]
+    // 这里要获取 name 就不能以 data 来获取了 要先获取 data 中所有的 name
+    const names = this.data.map(item => item.name);
+    if (names.indexOf(name) >= 0) { // 如果标签名重复了
       return 'duplicated';
     }
     // 传入 li push li 再保存 labels 只需要使用 tagListModel.create(name)
-    this.data.push(name);
+    this.data.push({id: name, name: name}); // 这里以后会是 {id: 1/2/3…, name: name} 需要 ID 生成器
     this.save();
     return 'success';
   },
