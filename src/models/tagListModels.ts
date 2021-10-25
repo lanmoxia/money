@@ -5,7 +5,7 @@ const localStorageKeyName = 'tagList';
 type TagListModel = {
   data: string[],
   fetch: () => string[],
-  create: (name: string) => boolean,
+  create: (name: string) => number,// 0：成功 && 1：表示重复
   save: () => void
 }
 // 这里把上边大写 TagListModel 和这里的 tagListModel 关联起来
@@ -20,12 +20,12 @@ const tagListModel: TagListModel = {
   // 创建标签
   create(name: string) {
     if (this.data.indexOf(name) >= 0) { // 如果标签名重复了
-      throw new Error('duplicated');
+      return 1;
     }
     // 传入 li push li 再保存 labels 只需要使用 tagListModel.create(name)
     this.data.push(name);
     this.save();
-    return true;
+    return 0;
   },
   // 保存数据
   save() {
