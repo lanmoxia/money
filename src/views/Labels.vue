@@ -25,7 +25,7 @@ export default class labels extends Vue {
     const name = window.prompt('请输入标签名');
     if (name) {
       const message = tagListModel.create(name);
-      if (message === 1) {
+      if (message === 'duplicated') {
         window.alert('标签名重复了');
       }
     }
