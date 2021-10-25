@@ -2,45 +2,29 @@
   <div>
     {{ value }}
     <label class="notes">
-      <span class="name">备注</span>
-      <!--      这一版：不用在 TS 定义的 Vue 组件内写 onInput 函数 -->
-      <!--      <input type="text" :value="value"-->
-      <!--             @input="value = $event.target.value"-->
-      <!--             placeholder="请填写备注信息">-->
-
-      <!--      这二版：这里需要在 TS 定义的 Vue 组件内写 onInput 函数 -->
-      <!--      <input type="text" :value="value"-->
-      <!--             @input="onInput"-->
-      <!--             placeholder="请填写备注信息">-->
-
-      <!--      第三版：使用 v-model: "value"，不需要 onInput 函数，也不需要 @input="value = $event.target.value"-->
+      <span class="name">{{ fieldName }}</span>
       <input type="text"
              v-model="value"
-             placeholder="请填写备注信息">
+             :placeholder="this.placeholder">
     </label>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Watch} from 'vue-property-decorator';
+import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class Notes extends Vue {
   value = '';
 
-  // 因为上边 v-model:'value' 绑定了 value，这里可以使用 @Watch 监听 value 的变化更新 value
+  @Prop({required: true}) fieldName!: string;
+  @Prop() placeholder?: string;// 问号是有可能不存在
+
   @Watch('value')
   onNoteChange(value: string) {
     this.$emit('update:value', value);
   }
-
-// 配合 template 中 input 的第二版
-//   onInput(event: KeyboardEvent) {
-//     const input = event.target as HTMLInputElement;
-//     this.value = input.value;
-//   }
-
 };
 </script>
 

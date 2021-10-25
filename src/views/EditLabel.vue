@@ -1,7 +1,12 @@
 <template>
   <!--  使用 layout 标签自动就引入 nav 导航-->
   <layout>
-    编辑标签
+    <div>
+      <Icon name="left"/>
+      <span>编辑标签</span>
+      <Notes field-name="标签名" placeholder="请输入标签名"/>
+    </div>
+
   </layout>
 </template>
 
@@ -9,8 +14,11 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import tagListModel from '@/models/tagListModels';
+import Notes from '@/components/money/Notes.vue';
 
-@Component
+@Component({
+  components: {Notes}
+})
 export default class EditLabel extends Vue {
   // 使用钩子函数方便使用 this
   created() {
