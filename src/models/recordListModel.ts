@@ -1,6 +1,8 @@
+// 这个 model 没有保存自己的 data 是以参数和返回值的形式
+
 // recordList 变成一个常量 这样防止被人修改
 const localStorageKeyName = 'recordList';
-const model = {
+const recordListModel = {
   // 深拷贝
   clone(data: RecordItem[] | RecordItem) {// 可以传一个数组 也可以传一项
     return JSON.parse(JSON.stringify(data));
@@ -16,5 +18,5 @@ const model = {
     window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));
   }
 };
-export default model;
+export default recordListModel;
 //export {model};

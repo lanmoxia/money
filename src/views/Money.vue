@@ -15,13 +15,15 @@ import Notes from '@/components/money/Notes.vue';
 import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
-import model from '@/model';
+import recordListModel from '@/models/recordListModel';
+import tagListModel from '@/models/tagListModels';
 
-const recordList = model.fetch(); // 这里知道 fetch 的返回值类型了 前边的 recordList 就不需要明确类型了
+const recordList = recordListModel.fetch(); // 这里知道 fetch 的返回值类型了 前边的 recordList 就不需要明确类型了
+const tagList = tagListModel.fetch();
 
 @Component({components: {Tags, Notes, Types, NumberPad}})
 export default class Money extends Vue {
-  tags = ['衣', '食', '住', '行'];
+  tags = tagList;
 
   recordList: RecordItem[] = recordList;
   record: RecordItem = {
@@ -37,15 +39,15 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const record2: RecordItem = model.clone(this.record);
+    const record2: RecordItem = recordListModel.clone(this.record);
     record2.createdAt = new Date();
     this.recordList.push(record2);
     console.log(this.recordList);
   }
 
   @Watch('recordList')
-  onRecordListChange() {
-    model.save(this.recordList);
+  onRecordListChange() { //这个函数名随便取
+    recordListModel.save(this.recordList);
   }
 };
 </script>
