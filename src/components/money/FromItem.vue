@@ -1,7 +1,6 @@
 <template>
   <div>
-    {{ value }}
-    <label class="notes">
+    <label class="fromItem">
       <span class="name">{{ fieldName }}</span>
       <input type="text"
              v-model="value"
@@ -15,7 +14,7 @@ import Vue from 'vue';
 import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
-export default class Notes extends Vue {
+export default class FromItem extends Vue {
   value = '';
 
   @Prop({required: true}) fieldName!: string;
@@ -29,18 +28,19 @@ export default class Notes extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.notes{
-  background: #f2f3f5;
+.fromItem {
   font-size: 14px;
-  padding-left:16px;
+  padding-left: 16px;
   display: flex;
   align-items: center;
-  .name{
+
+  .name {
     padding-right: 16px;
     color: #1e1b1c;
   }
-  input{
-    height: 64px;
+
+  input {
+    height: 40px;
     flex-grow: 1;
     background: transparent;
     border: none;

@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ value }}
     <ul class="types">
       <li :class="value === '-' && 'selected'"
           @click="selectType('-')">支出
@@ -55,6 +54,7 @@ export default class Types extends Vue {
 
   > li {
     width: 50%;
+    padding: 10px 0;
     //這裡如果使用 line-height 垂直居中會因為 border 有問
     //使用 flex 居中比較好
     justify-content: center;

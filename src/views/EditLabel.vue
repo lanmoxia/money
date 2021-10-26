@@ -1,12 +1,17 @@
 <template>
   <!--  使用 layout 标签自动就引入 nav 导航-->
   <layout>
-    <div>
-      <Icon name="left"/>
-      <span>编辑标签</span>
-      <Notes field-name="标签名" placeholder="请输入标签名"/>
+    <div class="navBar">
+      <Icon class="backIcon" name="left"/>
+      <span class="title">编辑标签</span>
+      <span class="placeholder"></span>
     </div>
-
+    <div class="from-wrapper">
+      <FromItem field-name="标签名" placeholder="请输入标签名"/>
+    </div>
+    <div class="button-wrapper">
+      <Button>删除标签</Button>
+    </div>
   </layout>
 </template>
 
@@ -14,10 +19,11 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import tagListModel from '@/models/tagListModels';
-import Notes from '@/components/money/Notes.vue';
+import FromItem from '@/components/money/FromItem.vue';
+import Button from '@/components/Button.vue';
 
 @Component({
-  components: {Notes}
+  components: {Button, FromItem}
 })
 export default class EditLabel extends Vue {
   // 使用钩子函数方便使用 this
@@ -42,5 +48,41 @@ export default class EditLabel extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.navBar {
+  text-align: center;
+  font-size: 16px;
+  padding: 12px 16px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
+  > .title {
+    //border: 1px solid red;
+  }
+
+  > .backIcon {
+    //border: 1px solid red;
+    width: 24px;
+    height: 24px;
+  }
+
+
+  > .placeholder {
+    //border: 1px solid red;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.from-wrapper {
+  background: white;
+  margin-top: 8px;
+}
+
+.button-wrapper {
+  text-align: center;
+  padding: 16px;
+  margin-top: 44-16px;
+}
 </style>

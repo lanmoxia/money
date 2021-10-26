@@ -2,18 +2,17 @@
   <Layout class-prefix="layout">
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync="record.type"/>
-    <Notes field-name="备注"
-           placeholder="请输入备注信息"
-           @update:value="onUpdateNotes"/>
+    <div class="remark-wrapper">
+      <FromItem field-name="备注" placeholder="请输入备注信息" @update:value="onUpdateNotes"/>
+    </div>
     <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
-    {{ recordList }}
   </Layout>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import Tags from '@/components/money/Tags.vue';
-import Notes from '@/components/money/Notes.vue';
+import FromItem from '@/components/money/FromItem.vue';
 import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
@@ -23,7 +22,7 @@ import tagListModel from '@/models/tagListModels';
 const recordList = recordListModel.fetch(); // 这里知道 fetch 的返回值类型了 前边的 recordList 就不需要明确类型了
 const tagList = tagListModel.fetch();
 
-@Component({components: {Tags, Notes, Types, NumberPad}})
+@Component({components: {Tags, FromItem, Types, NumberPad}})
 export default class Money extends Vue {
   tags = tagList;
 
@@ -54,12 +53,18 @@ export default class Money extends Vue {
 };
 </script>
 <style lang="scss">
-  .layout-wrapper{
-    //border: 10px solid red;
-  }
-  .layout-content{
-    //border: 8px solid blue;
-    display: flex;
-    flex-direction: column-reverse;
-  }
+.layout-wrapper {
+  //border: 10px solid red;
+  background: #f2f2f2;
+}
+
+.layout-content {
+  //border: 8px solid blue;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.remark-wrapper {
+  padding: 12px 0;
+}
 </style>

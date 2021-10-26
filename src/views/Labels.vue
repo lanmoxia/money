@@ -8,7 +8,10 @@
       </router-link>
     </div>
     <div class="createTags-wrapper">
-      <button class="createTags" @click="createTag">新建标签</button>
+      <!--      這裡的點擊事件只是大 Button 的 Button 組件中小 button 點擊沒用 小 button 也要監聽 click 事件-->
+      <!--      Vue 提供了一個 .native:意思是這個大 Button 對應的小 button 有點擊事件-->
+      <!--      Button 这个组件对应的元素有 click 事件-->
+      <Button class="createTags" @click.native="createTag">新建标签</Button>
     </div>
   </Layout>
 </template>
@@ -17,9 +20,12 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
 import tagListModel from '@/models/tagListModels';
+import Button from '@/components/Button.vue';
 
 tagListModel.fetch(); // 这句必须放到 tags 之前才可以
-@Component
+@Component({
+  components: {Button}
+})
 export default class labels extends Vue {
   tags = tagListModel.data;
 
@@ -42,6 +48,7 @@ export default class labels extends Vue {
 .tags {
   font-size: 16px;
   padding-left: 16px;
+  background: white;
 
   > .tag {
     min-height: 44px;
