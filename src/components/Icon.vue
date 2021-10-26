@@ -1,9 +1,9 @@
 <template>
-    <svg class="icon">
-      <use v-bind:xlink:href= "'#'+ name"/>
-<!--      这里可以缩写为-->
-<!--      <use :xlink:href= "'#'+ name"/>-->
-    </svg>
+  <svg class="icon" @click="$emit('click', $event)">
+    <use v-bind:xlink:href="'#'+ name"/>
+    <!--      这里可以缩写为-->
+    <!--      <use :xlink:href= "'#'+ name"/>-->
+  </svg>
 </template>
 
 <script lang="ts">

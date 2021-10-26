@@ -2,7 +2,7 @@
   <!--  使用 layout 标签自动就引入 nav 导航-->
   <layout>
     <div class="navBar">
-      <Icon class="backIcon" name="left"/>
+      <Icon class="backIcon" name="left" @click="goBack"/>
       <span class="title">编辑标签</span>
       <span class="placeholder"></span>
     </div>
@@ -72,6 +72,12 @@ export default class EditLabel extends Vue {
     if (this.tag) {
       tagListModel.remove(this.tag.id);
     }
+  }
+
+// 返回标签
+  goBack() {
+    // 使用 Vue.router 实现返回 复制另一个窗口返回会回到谷歌首页 有 BUG
+    this.$router.back();
   }
 }
 </script>
