@@ -10,12 +10,12 @@
       <!--      如果用户想修改 监听 @update:value="updateTag" 事件更新 tag-->
       <!--      updateTag 变成什么呢 Vue 会帮你传 $event 这里不用传参-->
       <FromItem :value="tag.name"
-                @update:value="updateTag"
+                @update:value="update"
                 field-name="标签名"
                 placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="remove">删除标签</Button>
     </div>
   </layout>
 </template>
@@ -56,11 +56,21 @@ export default class EditLabel extends Vue {
     }
   }
 
+  // 编辑标签的更新功能
 // updateTag 方法执行 id 就是当前 tag 的 id name 变成这个 name
-  updateTag(name: string) {
+  update(name: string) {
     // tag 有可能为空 需要判断下
     if (this.tag) {
       tagListModel.update(this.tag.id, name);
+    }
+  }
+
+  // 删除功能
+  // 同样需要 tagListModel 提供 remove 接口
+  // 直接通过 id 删除
+  remove() {
+    if (this.tag) {
+      tagListModel.remove(this.tag.id);
     }
   }
 }

@@ -11,6 +11,7 @@ type TagListModel = {
   fetch: () => Tag[],
   create: (name: string) => 'success' | 'duplicated',// 这里可以防止外部使用拼写错误 拼写错误会提示
   update: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
+  remove: (id: string) => boolean
   save: () => void
 }
 // 这里把上边大写 TagListModel 和这里的 tagListModel 关联起来
@@ -50,12 +51,28 @@ const tagListModel: TagListModel = {
       } else {
         return 'not found';
       }
+
     },
-// 保存数据
-    save() {
-      window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
+  remove(id: string) {
+    // 数据库找到
+    let index = -1;
+    for (let i = 0; i < this.data.length; i++) {
+      if (this.data[i].id === id) {
+        index = i;
+        break;
+      }
     }
-  }
-;
+    console.log(index);
+    this.data.splice(index);
+    console.log(this.data);
+    this.save();
+    return true;
+  },
+// 保存数据
+  save() {
+    window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
+  },
+
+};
 export default tagListModel;
 //export {model};
