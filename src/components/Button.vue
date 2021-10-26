@@ -2,7 +2,7 @@
   <!--  小 button 被點擊了 觸發大 Button 的事件-->
   <!--  <button class="button"-->
   <!--          @click="$emit('click', $event)">-->
-  <button class="button">
+  <button class="button" @click="$emit('click', $event)">
     <slot/>
   </button>
 </template>
