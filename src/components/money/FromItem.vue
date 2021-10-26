@@ -14,14 +14,14 @@
       <input type="text"
              :value="value"
              @input="onNoteChange($event.target.value)"
-             :placeholder="this.placeholder">
+             :placeholder="placeholder">
     </label>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import {Component, Prop, Watch} from 'vue-property-decorator';
+import {Component, Prop} from 'vue-property-decorator';
 
 @Component
 export default class FromItem extends Vue {
@@ -30,7 +30,8 @@ export default class FromItem extends Vue {
   @Prop({required: true}) fieldName!: string;
   @Prop() placeholder?: string;// 问号是有可能不存在
 
-  @Watch('value')
+  // 因为 input 的值一旦被用户变化，就会触发 @update:value 事件，所以就没必要再加一个 watch 了。
+  //@Watch('value')
   onNoteChange(value: string) {
     this.$emit('update:value', value);
   }

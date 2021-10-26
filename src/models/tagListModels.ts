@@ -40,23 +40,23 @@ const tagListModel: TagListModel = {
     this.save();
     return 'success';
   },
-    update(id: string, name: string) {
-      const idList = this.data.map(item => item.id);
-      if (idList.indexOf(id) >= 0) {
-        const names = this.data.map(item => item.name);
-        if (names.indexOf(name) >= 0) {
-          return 'duplicated';
-        } else {
-          const tag = this.data.filter(item => item.id === id)[0];
-          tag.name = name;
-          this.save();
-          return 'success';
-        }
+  update(id: string, name: string) {
+    const idList = this.data.map(item => item.id);
+    if (idList.indexOf(id) >= 0) {
+      const names = this.data.map(item => item.name);
+      if (names.indexOf(name) >= 0) {
+        return 'duplicated';
       } else {
-        return 'not found';
+        const tag = this.data.filter(item => item.id === id)[0];
+        tag.name = name;
+        this.save();
+        return 'success';
       }
+    } else {
+      return 'not found';
+    }
 
-    },
+  },
   remove(id: string) {
     // 数据库找到
     let index = -1;

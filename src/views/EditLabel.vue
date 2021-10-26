@@ -70,7 +70,7 @@ export default class EditLabel extends Vue {
   // 直接通过 id 删除
   remove() {
     if (this.tag) {
-      // 如果为 true
+      // 编辑页面删除成功以后回到标签页
       if (tagListModel.remove(this.tag.id)) {
         this.$router.back();
       } else {
