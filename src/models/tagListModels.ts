@@ -1,4 +1,6 @@
 // 这个 model 有自己的 data 自己维护 data 外部需要创建或保存只需要使用这里的函数PAI即可
+import createId from '@/lib/createld';
+
 const localStorageKeyName = 'tagList';
 
 type Tag = {
@@ -31,8 +33,10 @@ const tagListModel: TagListModel = {
     if (names.indexOf(name) >= 0) { // 如果标签名重复了
       return 'duplicated';
     }
+
+    const id = createId().toString();
     // 传入 li push li 再保存 labels 只需要使用 tagListModel.create(name)
-    this.data.push({id: name, name: name}); // 这里以后会是 {id: 1/2/3…, name: name} 需要 ID 生成器
+    this.data.push({id: id, name: name}); // 这里以后会是 {id: 1/2/3…, name: name} 需要 ID 生成器
     this.save();
     return 'success';
   },
@@ -63,7 +67,7 @@ const tagListModel: TagListModel = {
       }
     }
     console.log(index);
-    this.data.splice(index);
+    this.data.splice(index, 1);
     console.log(this.data);
     this.save();
     return true;
