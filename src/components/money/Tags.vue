@@ -6,10 +6,10 @@
     <ul class="current">
       <!--      :class="selectedTags.indexOf(tag) >= 0 && 'selected'"-->
       <!--      可以优化为一个对象方式：:class="{selected: selectedTags.indexOf(tag)>=0}"-->
-      <li v-for="tag in dataSource" :key="tag"
+      <li v-for="tag in dataSource" :key="tag.id"
           :class="{selected: selectedTags.indexOf(tag)>=0}"
           @click=" toggle(tag)">
-        {{ tag }}
+        {{ tag.name }}
       </li>
     </ul>
   </div>
@@ -61,18 +61,20 @@ export default class Tags extends Vue {
     display: flex;
     flex-wrap: wrap;
 
+
     > li {
       $bg: #d9d9d9;
       background: #cac9ce;
-      $h: 24px;
-      height: $h;
-      border-radius: $h/2;
-      padding: 0 16px;
-      margin-right: $h/2;
+      //$h: 24px;
+      height: 24px;
+      border-radius: 12px;
+      padding: 16px;
+      margin-right: 12px;
       color: #1e1b1c;
       //確定裡邊只有一行字用 line-height
       //不能確定是一行字 每個 li flex 上下居中
-      line-height: 24px;
+      line-height: 6px;
+      margin-bottom: 10px;
 
       &.selected {
         background: darken($bg, 50%);
