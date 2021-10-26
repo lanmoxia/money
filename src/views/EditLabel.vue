@@ -7,7 +7,12 @@
       <span class="placeholder"></span>
     </div>
     <div class="from-wrapper">
-      <FromItem :value="tag.name" field-name="标签名" placeholder="请输入标签名"/>
+      <!--      如果用户想修改 监听 @update:value="updateTag" 事件更新 tag-->
+      <!--      updateTag 变成什么呢 Vue 会帮你传 $event 这里不用传参-->
+      <FromItem :value="tag.name"
+                @update:value="updateTag"
+                field-name="标签名"
+                placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
       <Button>删除标签</Button>
@@ -48,6 +53,14 @@ export default class EditLabel extends Vue {
     } else {
       // 这里使用 replace 代替 push 是为了防止用户进入错误页面退不回去
       this.$router.replace('/404'); // router 是路由器
+    }
+  }
+
+// updateTag 方法执行 id 就是当前 tag 的 id name 变成这个 name
+  updateTag(name: string) {
+    // tag 有可能为空 需要判断下
+    if (this.tag) {
+      tagListModel.update(this.tag.id, name);
     }
   }
 }

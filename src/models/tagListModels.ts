@@ -10,6 +10,7 @@ type TagListModel = {
   data: Tag[],
   fetch: () => Tag[],
   create: (name: string) => 'success' | 'duplicated',// 这里可以防止外部使用拼写错误 拼写错误会提示
+  update: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
   save: () => void
 }
 // 这里把上边大写 TagListModel 和这里的 tagListModel 关联起来
@@ -34,10 +35,27 @@ const tagListModel: TagListModel = {
     this.save();
     return 'success';
   },
-  // 保存数据
-  save() {
-    window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
+    update(id: string, name: string) {
+      const idList = this.data.map(item => item.id);
+      if (idList.indexOf(id) >= 0) {
+        const names = this.data.map(item => item.name);
+        if (names.indexOf(name) >= 0) {
+          return 'duplicated';
+        } else {
+          const tag = this.data.filter(item => item.id === id)[0];
+          tag.name = name;
+          this.save();
+          return 'success';
+        }
+      } else {
+        return 'not found';
+      }
+    },
+// 保存数据
+    save() {
+      window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
+    }
   }
-};
+;
 export default tagListModel;
 //export {model};
