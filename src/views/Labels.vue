@@ -22,12 +22,11 @@ import {Component} from 'vue-property-decorator';
 import tagListModel from '@/models/tagListModels';
 import Button from '@/components/Button.vue';
 
-tagListModel.fetch(); // 这句必须放到 tags 之前才可以
 @Component({
   components: {Button}
 })
 export default class labels extends Vue {
-  tags = tagListModel.data;
+  tags = window.tagList; // 这里也是同样到 window 获取
 
   createTag() {
     const name = window.prompt('请输入标签名');

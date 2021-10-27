@@ -22,11 +22,11 @@ import recordListModel from '@/models/recordListModel';
 import tagListModel from '@/models/tagListModels';
 
 const recordList = recordListModel.fetch(); // 这里知道 fetch 的返回值类型了 前边的 recordList 就不需要明确类型了
-const tagList = tagListModel.fetch();
+// const tagList = tagListModel.fetch(); // 这里就不用 fetch 拿到了
 
 @Component({components: {Tags, FromItem, Types, NumberPad}})
 export default class Money extends Vue {
-  tags = tagList;
+  tags = window.tagList; // 这里直接在 window 获取即可
 
   recordList: RecordItem[] = recordList;
   record: RecordItem = {

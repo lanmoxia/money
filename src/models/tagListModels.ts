@@ -3,19 +3,6 @@ import createId from '@/lib/createld';
 
 const localStorageKeyName = 'tagList';
 
-type Tag = {
-  id: string;
-  name: string;
-}
-// 这里定义类型
-type TagListModel = {
-  data: Tag[],
-  fetch: () => Tag[],
-  create: (name: string) => 'success' | 'duplicated',// 这里可以防止外部使用拼写错误 拼写错误会提示
-  update: (id: string, name: string) => 'success' | 'not found' | 'duplicated'
-  remove: (id: string) => boolean
-  save: () => void
-}
 // 这里把上边大写 TagListModel 和这里的 tagListModel 关联起来
 //下边的就不需要写数据类型了
 const tagListModel: TagListModel = {
