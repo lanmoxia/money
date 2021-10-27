@@ -58,7 +58,6 @@ const tagListModel: TagListModel = {
 
   },
   remove(id: string) {
-    // 数据库找到
     let index = -1;
     for (let i = 0; i < this.data.length; i++) {
       if (this.data[i].id === id) {
