@@ -38,7 +38,7 @@ export default class Tags extends Vue {
 
   create() {
     const name = window.prompt('请输入标签名');
-    console.log(name);
+
     if (name === '') {
       window.alert('标签名不能为空');
     } else if (this.dataSource) { // 这里 else 和 if 中间什么也没有 可以合并成 else if

@@ -7,10 +7,10 @@ const recordListModel = {
   // 这里就几个方法 我们不使用 type 定义类型 直接断言强制指定类型即可
   data: [] as RecordItem[],
 
-  create(record: RecordItem[]) {
+  create(record: RecordItem) {
     const record2: RecordItem = clone(record);
     record2.createdAt = new Date();
-    this.data.push(record2);
+    console.log(record2);
   },
   // 获取数据
   fetch() {

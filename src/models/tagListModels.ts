@@ -52,9 +52,8 @@ const tagListModel: TagListModel = {
         break;
       }
     }
-    console.log(index);
+
     this.data.splice(index, 1);
-    console.log(this.data);
     this.save();
     return true;
   },
@@ -65,4 +64,3 @@ const tagListModel: TagListModel = {
 
 };
 export default tagListModel;
-//export {model};

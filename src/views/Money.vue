@@ -19,10 +19,9 @@ import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import {Component, Watch} from 'vue-property-decorator';
 import recordListModel from '@/models/recordListModel';
-import tagListModel from '@/models/tagListModels';
 
 const recordList = recordListModel.fetch(); // 这里知道 fetch 的返回值类型了 前边的 recordList 就不需要明确类型了
-// const tagList = tagListModel.fetch(); // 这里就不用 fetch 拿到了
+
 
 @Component({components: {Tags, FromItem, Types, NumberPad}})
 export default class Money extends Vue {

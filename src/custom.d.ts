@@ -22,7 +22,7 @@ type TagListModel = {
 }
 
 // 这里声明 tagList 绑定到 window 上
-interface window {
+interface Window {
   tagList: Tag[];
   createTag: (name: string) => void;
 }
