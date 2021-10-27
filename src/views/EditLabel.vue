@@ -43,8 +43,7 @@ export default class EditLabel extends Vue {
     // 获取 id
     const id = this.$route.params.id; // route 是获取路由信息的
     // 获取标签
-    tagListModel.fetch();
-    const tags = tagListModel.data;
+    const tags = window.tagList;
     // 遍历 tags 第0项是filter返回的是一个数组 要获取单个标签
     const tag = tags.filter(t => t.id === id)[0];
     //如果编辑的标签存在

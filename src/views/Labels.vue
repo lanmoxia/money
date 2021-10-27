@@ -31,15 +31,11 @@ export default class labels extends Vue {
   createTag() {
     const name = window.prompt('请输入标签名');
     if (name) {
-      const message = tagListModel.create(name);
-      if (message === 'duplicated') {
-        window.alert('标签名重复了');
-      }
+      window.createTag(name); // 直接使用绑定在window上的属性
     }
   }
+}
 
-
-};
 </script>
 
 

@@ -16,6 +16,17 @@ Vue.component('Icon', Icon);
 
 // 这里定义全局的 tagList 供 Money 和 EditLabel 两个页面使用
 window.tagList = tagListModel.fetch();
+// 创建 tag
+window.createTag = (name: string) => {
+  const message = tagListModel.create(name);
+  if (message === 'duplicated') {
+    window.alert('标签名重复了');
+  } else if (message === 'success') {
+    window.alert('添加成功');
+  }
+};
+
+
 new Vue({
   router,
   store,
